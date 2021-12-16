@@ -1,0 +1,142 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div class="row row-cols-2 row-cols-lg-5 g-4 text-white mb-5">
+    <div class="col">
+      <div class="card bg-warning">
+        <div class="card-body">
+          <h5 class="card-title">Pendetes</h5>
+          <p class="card-text text-center fs-1 fw-bold">{{contagem_status.pendente}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card bg-danger">
+        <div class="card-body">
+          <h5 class="card-title">Atrasadas</h5>
+          <p class="card-text text-center fs-1 fw-bold">{{contagem_status.atrasada}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card bg-info">
+        <div class="card-body">
+          <h5 class="card-title">Reprovadas</h5>
+          <p class="card-text text-center fs-1 fw-bold">{{contagem_status.reprovada}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card bg-primary">
+        <div class="card-body">
+          <h5 class="card-title">Aprovadas</h5>
+          <p class="card-text text-center fs-1 fw-bold">{{contagem_status.aprovada}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card bg-success">
+        <div class="card-body">
+          <h5 class="card-title">Concluídas</h5>
+          <p class="card-text text-center fs-1 fw-bold">{{contagem_status.concluida}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table border table-borderless mb-0">
+      <thead class="table-secondary border-bottom">
+        <tr class="align-middle">
+          <th></th>
+          <th>Responsável</th>
+          <th>Unidade</th>
+          <th>Título</th>
+          <th>Enviado em</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="align-middle border-bottom" *ngFor="let ocorrencia of ocorrencias">
+          <td class="px-4 text-center">
+            <img class="rounded-circle"
+              src="http://localhost:3000/api/usuario/foto-perfil/{{ocorrencia.responsavel_id}}" alt="" width="45"
+              height="45">
+          </td>
+          <td>
+            <span>{{ocorrencia.responsavel}}</span>
+          </td>
+          <td>
+            <div class="fw-semibold">{{ocorrencia.apartamento}} - {{ocorrencia.bloco}}</div>
+          </td>
+          <td>
+            <div class="fw-semibold">{{ocorrencia.titulo}}</div>
+          </td>
+          <td>
+            <div class="fw-semibold">{{ocorrencia.created_at | date:'d MMMM y, H:mm': '' : 'pt-BR'}}</div>
+          </td>
+          <td>
+            <div class="fw-semibold">{{ocorrencia.status_ocorrencia}}</div>
+          </td>
+          <td class="text-center">
+            <div class="dropdown">
+              <a id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    (click)="buscarOcorrenciaID(ocorrencia)">Visualizar</a></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="fw-semibold" *ngIf="ocorrencias.length==0">Nenhuma ocorrência cadastrada</div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ocorrência #{{ocor_selec.id}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h1 class="fw-bold">{{ocor_selec.titulo}}</h1>
+
+        <div class="fw-semibold mb-5"><strong>Unidade:</strong> {{ocor_selec.apartamento}} -
+          {{ocor_selec.bloco}} /
+          <strong>Responsável:</strong> {{ocor_selec.responsavel}}</div>
+
+        <div class="fw-semibold"><strong>Descrição:</strong></div>
+
+        <div class="fw-semibold mb-5">{{ocor_selec.descricao}}</div>
+
+        <div class="fw-semibold mb-3"><strong>Tipo da ocorrência:</strong> {{ocor_selec.tipo_ocorrencia}}
+        </div>
+
+        <div class="fw-semibold mb-3"><strong>Status atual:</strong> {{ocor_selec.status_ocorrencia}}</div>
+
+        <div class="fw-semibold" *ngFor="let url_anexo of url_anexos">
+          <a href="http://localhost:3000/api/anexo/download/{{url_anexo.id}}" class="btn btn-link p-0">Baixar Anexo:
+            {{url_anexo.nome}}</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" *ngIf="reprovar" data-bs-dismiss="modal"
+          (click)="atualizarStatus(5)">Reprovar</button>
+        <button type="button" class="btn btn-success" *ngIf="aprovar" data-bs-dismiss="modal"
+          (click)="atualizarStatus(3)">Aprovar</button>
+        <button type="button" class="btn btn-primary" *ngIf="concluir" data-bs-dismiss="modal"
+          (click)="atualizarStatus(4)">Concluir</button>
+        <button type="button" class="btn btn-secondary" *ngIf="fechar" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

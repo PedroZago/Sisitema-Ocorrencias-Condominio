@@ -1,0 +1,82 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <form [formGroup]="ocorrenciaForm" (ngSubmit)="cadastrarOcorrencia()" class="row g-3 mb-3">
+    <div class="col-12 col-lg-4">
+      <div class="mb-3">
+        <label for="titulo" class="form-label">Título <span class="text-danger fw-bold">*</span></label>
+        <input type="text" id="titulo" formControlName="titulo" class="form-control"
+          [class.is-invalid]="titulo.invalid && (titulo.dirty || titulo.touched)" aria-label="titulo"
+          aria-describedby="input-titulo" required>
+        <div *ngIf="titulo.invalid && (titulo.dirty || titulo.touched)" class="form-text text-danger">
+          <div *ngIf="titulo.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="mb-3">
+        <label for="tipo" class="form-label">Tipo da ocorrência <span class="text-danger fw-bold">*</span></label>
+        <select id="tipo" formControlName="tipo" class="form-select" aria-label="tipo" aria-describedby="input-tipo"
+          [class.is-invalid]="tipo.invalid && (tipo.dirty || tipo.touched)" required>
+          <option *ngFor="let tipo_ocorrencia of tipo_ocorrencias" [value]="tipo_ocorrencia.id">
+            {{ tipo_ocorrencia.descricao }}</option>
+        </select>
+        <div *ngIf="tipo.invalid && (tipo.dirty || tipo.touched)" class="form-text text-danger">
+          <div *ngIf="tipo.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="mb-3">
+        <label for="unidade" class="form-label">Unidade <span class="text-danger fw-bold">*</span></label>
+        <select id="unidade" formControlName="unidade" class="form-select" aria-label="unidade"
+          aria-describedby="input-unidade" [class.is-invalid]="unidade.invalid && (unidade.dirty || unidade.touched)"
+          required>
+          <option class="fw-semibold" value="" *ngIf="unidades.length==0">Nenhuma unidade encontrada</option>
+          <option *ngFor="let unidade of unidades" [value]="unidade.unidade_id">
+            {{ unidade.unidade_id }}</option>
+        </select>
+        <div *ngIf="unidade.invalid && (unidade.dirty || unidade.touched)" class="form-text text-danger">
+          <div *ngIf="unidade.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-12">
+      <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição <span class="text-danger fw-bold">*</span></label>
+        <textarea id="descricao" formControlName="descricao" class="form-control" aria-label="descricao"
+          aria-describedby="input-descricao" style="max-height: 350px"
+          [class.is-invalid]="descricao.invalid && (descricao.dirty || descricao.touched)" required></textarea>
+      </div>
+      <div *ngIf="descricao.invalid && (descricao.dirty || descricao.touched)" class="form-text text-danger">
+        <div *ngIf="descricao.errors?.['required']">
+          Campo obrigatório.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="mb-3">
+        <label for="anexo" class="form-label">Anexo</label>
+        <input class="form-control" accept="*" type="file" (change)="selecionarAnexo($event)" id="anexo"
+          [class.is-invalid]="erroArquivo" multiple>
+        <div class="form-text text-danger" *ngIf="erroArquivo">Arquivo não suportado.</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <button type="submit" class="btn btn-primary px-4" role="button">Enviar</button>
+    </div>
+  </form>
+</div>
+
+<app-footer></app-footer>

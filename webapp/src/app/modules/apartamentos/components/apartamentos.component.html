@@ -1,0 +1,124 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <form [formGroup]="apartamentoForm" (ngSubmit)="cadastrarApartamento()" class="row g-3 mb-3">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="identificador" class="form-label">Identificador <span class="text-danger fw-bold">*</span></label>
+        <input type="text" id="identificador" formControlName="identificador" class="form-control"
+          [class.is-invalid]="identificador.invalid && (identificador.dirty || identificador.touched)"
+          aria-label="Identificador" aria-describedby="input-identificador" required>
+        <div *ngIf="identificador.invalid && (identificador.dirty || identificador.touched)"
+          class="form-text text-danger">
+          <div *ngIf="identificador.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição <span class="text-danger fw-bold">*</span></label>
+        <input type="text" id="descricao" formControlName="descricao" class="form-control"
+          [class.is-invalid]="descricao.invalid && (descricao.dirty || descricao.touched)" aria-label="descricao"
+          aria-describedby="input-descricao" required>
+        <div *ngIf="descricao.invalid && (descricao.dirty || descricao.touched)" class="form-text text-danger">
+          <div *ngIf="descricao.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <button type="submit" class="btn btn-primary px-4" role=" button">Cadastrar</button>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table border table-borderless mb-0">
+      <thead class="table-secondary border-bottom">
+        <tr class="align-middle">
+          <th class="px-4" style="width: 45%">Identificador</th>
+          <th style="width: 45%">Descrição</th>
+          <th style="width: 10%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-bottom" *ngFor="let apartamento of apartamentos">
+          <td class="px-4">
+            <div class="fw-semibold">{{apartamento.identificador}}</div>
+          </td>
+          <td>
+            <div class="fw-semibold">{{apartamento.descricao}}</div>
+          </td>
+          <td class="text-center">
+            <div class="dropdown">
+              <a id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    (click)="buscarApartamentoID(apartamento)">Atualizar</a></li>
+                <li><a class="dropdown-item" (click)="deletarApartamento(apartamento)">Remover</a></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="fw-semibold" *ngIf="apartamentos.length==0">Nenhum apartamento cadastrado</div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Atualizar informações</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="apartamentoModalForm" (ngSubmit)="atualizarApartamento()" class="mb-3">
+          <div class="mb-3">
+            <label for="identificador_modal" class="form-label">Identificador <span
+                class="text-danger fw-bold">*</span></label>
+            <input type="text" id="identificador_modal" formControlName="identificador_modal" class="form-control"
+              [class.is-invalid]="identificador_modal.invalid && (identificador_modal.dirty || identificador_modal.touched)"
+              aria-label="Identificador" aria-describedby="input-identificador_modal" required>
+            <div *ngIf="identificador_modal.invalid && (identificador_modal.dirty || identificador_modal.touched)"
+              class="form-text text-danger">
+              <div *ngIf="identificador_modal.errors?.['required']">
+                Campo obrigatório.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="descricao_modal" class="form-label">Descrição <span class="text-danger fw-bold">*</span></label>
+            <input type="text" id="descricao_modal" formControlName="descricao_modal" class="form-control"
+              [class.is-invalid]="descricao_modal.invalid && (descricao_modal.dirty || descricao_modal.touched)"
+              aria-label="descricao_modal" aria-describedby="input-descricao_modal" required>
+            <div *ngIf="descricao_modal.invalid && (descricao_modal.dirty || descricao_modal.touched)"
+              class="form-text text-danger">
+              <div *ngIf="descricao_modal.errors?.['required']">
+                Campo obrigatório.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary px-4" role=" button" data-bs-dismiss="modal">Atualizar</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

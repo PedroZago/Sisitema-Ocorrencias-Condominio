@@ -1,0 +1,64 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <form [formGroup]="SenhaForm" (ngSubmit)="atualizarSenha()" class="row g-3 mb-3">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="senha_atual" class="form-label">Senha atual <span class="text-danger fw-bold">*</span></label>
+        <input type="password" id="senha_atual" formControlName="senha_atual" class="form-control"
+          [class.is-invalid]="senha_atual.invalid && (senha_atual.dirty || senha_atual.touched)" aria-label="Nome"
+          aria-describedby="input-senha_atual" required>
+        <div *ngIf="senha_atual.invalid && (senha_atual.dirty || senha_atual.touched)" class="form-text text-danger">
+          <div *ngIf="senha_atual.errors?.['minlength']">
+            Mínimo de 8 caracteres
+          </div>
+          <div *ngIf="senha_atual.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="senha_nova" class="form-label">Senha nova <span class="text-danger fw-bold">*</span></label>
+        <input type="password" id="senha_nova" formControlName="senha_nova" class="form-control"
+          [class.is-invalid]="senha_nova.invalid && (senha_nova.dirty || senha_nova.touched)" aria-label="Email"
+          aria-describedby="input-senha_nova" required>
+        <div *ngIf="senha_nova.invalid && (senha_nova.dirty || senha_nova.touched)" class="form-text text-danger">
+          <div *ngIf="senha_nova.errors?.['minlength']">
+            Mínimo de 8 caracteres
+          </div>
+          <div *ngIf="senha_nova.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="confirmar_senha_nova" class="form-label">Confirmar senha nova <span
+            class="text-danger fw-bold">*</span></label>
+        <input type="password" id="confirmar_senha_nova" formControlName="confirmar_senha_nova" class="form-control"
+          [class.is-invalid]="confirmar_senha_nova.invalid && (confirmar_senha_nova.dirty || confirmar_senha_nova.touched)"
+          aria-label="Email" aria-describedby="input-confirmar_senha_nova" required>
+        <div *ngIf="confirmar_senha_nova.invalid && (confirmar_senha_nova.dirty || confirmar_senha_nova.touched)"
+          class="form-text text-danger">
+          <div *ngIf="confirmar_senha_nova.errors?.['minlength']">
+            Mínimo de 8 caracteres
+          </div>
+          <div *ngIf="confirmar_senha_nova.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <button type="submit" class="btn btn-primary px-4" role="button">Atualizar</button>
+    </div>
+  </form>
+</div>
+
+<app-footer></app-footer>

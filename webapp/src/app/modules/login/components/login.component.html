@@ -1,0 +1,68 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card-group">
+          <div class="card p-4 bg-light shadow">
+            <div class="card-body">
+              <h1>Login</h1>
+
+              <p class="text-muted">Entre na sua conta.</p>
+
+              <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+                <div class="mb-3">
+                  <label for="email" class="form-label">E-mail</label>
+                  <input type="email" id="email" formControlName="email" class="form-control"
+                    [class.is-invalid]="email.invalid && (email.dirty || email.touched)" aria-label="Email"
+                    aria-describedby="input-email">
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-text text-danger">
+                    <div *ngIf="email.errors?.['email']">
+                      E-mail inválido. Exemplo: seunome@mail.com
+                    </div>
+                    <div *ngIf="email.errors?.['required']">
+                      Campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="senha" class="form-label">Senha</label>
+                  <input type="password" id="senha" formControlName="senha" class="form-control"
+                    [class.is-invalid]="senha.invalid && (senha.dirty || senha.touched)" aria-label="Senha"
+                    aria-describedby="input-senha">
+                  <div *ngIf="senha.invalid && (senha.dirty || senha.touched)" class="form-text text-danger">
+                    <div *ngIf="senha.errors?.['minlength']">
+                      Mínimo de 8 caracteres
+                    </div>
+                    <div *ngIf="senha.errors?.['required']">
+                      Campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <a class="btn btn-link px-0 text-decoration-none" [routerLink]="['/senha']" role="button">Esqueceu a
+                    sua
+                    senha?</a>
+                </div>
+
+                <button class="btn btn-primary px-4" type="submit" role="button">Entrar</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card p-4 text-white bg-primary shadow">
+            <div class="card-body text-center d-flex align-items-center">
+              <div>
+                <h1>Cadastro</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                  et dolore magna aliqua.</p>
+                <a [routerLink]="['/cadastro']" class="btn btn-lg btn-outline-light mt-3">Vamos lá!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

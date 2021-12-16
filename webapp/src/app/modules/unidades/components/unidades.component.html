@@ -1,0 +1,181 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <form [formGroup]="unidadeForm" (ngSubmit)="cadastrarUnidade()" class="row g-3 mb-3">
+
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label for="apartamento" class="form-label">Apartamento <span class="text-danger fw-bold">*</span></label>
+        <select id="apartamento" formControlName="apartamento" class="form-select"
+          [class.is-invalid]="apartamento.invalid && (apartamento.dirty || apartamento.touched)"
+          aria-label="apartamento" aria-describedby="input-apartamento" required>
+          <option class="fw-semibold" value="" *ngIf="apartamentos.length==0">Nenhum apartamento encontrado</option>
+          <option *ngFor="let apartamento of apartamentos" [value]="apartamento.id">{{ apartamento.identificador }}
+          </option>
+        </select>
+        <div *ngIf="apartamento.invalid && (apartamento.dirty || apartamento.touched)" class="form-text text-danger">
+          <div *ngIf="apartamento.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label for="bloco" class="form-label">Bloco <span class="text-danger fw-bold">*</span></label>
+        <select id="bloco" formControlName="bloco" class="form-select"
+          [class.is-invalid]="bloco.invalid && (bloco.dirty || bloco.touched)" aria-label="bloco"
+          aria-describedby="input-bloco" required>
+          <option class="fw-semibold" value="" *ngIf="blocos.length==0">Nenhum bloco encontrado</option>
+          <option *ngFor="let bloco of blocos" [value]="bloco.id">{{ bloco.identificador }}</option>
+        </select>
+        <div *ngIf="bloco.invalid && (bloco.dirty || bloco.touched)" class="form-text text-danger">
+          <div *ngIf="bloco.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label for="responsavel" class="form-label">Responsável <span class="text-danger fw-bold">*</span></label>
+        <select id="responsavel" formControlName="responsavel" class="form-select"
+          [class.is-invalid]="responsavel.invalid && (responsavel.dirty || responsavel.touched)"
+          aria-label="responsavel" aria-describedby="input-bloco" required>
+          <option class="fw-semibold" value="" *ngIf="responsaveis.length==0">Nenhum responsável encontrado</option>
+          <option *ngFor="let responsavel of responsaveis" [value]="responsavel.id">{{ responsavel.nome }}</option>
+        </select>
+        <div *ngIf="responsavel.invalid && (responsavel.dirty || responsavel.touched)" class="form-text text-danger">
+          <div *ngIf="responsavel.errors?.['required']">
+            Campo obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <button type="submit" class="btn btn-primary px-4" role="button">Cadastrar</button>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table border table-borderless mb-0">
+      <thead class="table-secondary border-bottom">
+        <tr class="align-middle">
+          <th class="px-4" style="width: 30%">Apartamento</th>
+          <th style="width: 30%">Bloco</th>
+          <th style="width: 30%">Responsável</th>
+          <th style="width: 10%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-bottom" *ngFor="let unidade of unidades">
+          <td class="px-4">
+            <div class="fw-semibold">{{unidade.apartamento}}</div>
+          </td>
+          <td>
+            <div class="fw-semibold">{{unidade.bloco}}</div>
+          </td>
+          <td>
+            <div class="fw-semibold">{{unidade.usuario}}</div>
+          </td>
+          <td class="text-center">
+            <div class="dropdown">
+              <a id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false" (click)="buscarUnidadeID(unidade)">
+                <i class="bi bi-three-dots-vertical"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</a></li>
+                <li><a class="dropdown-item" (click)="deletarUnidade(unidade)">Remover</a></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="fw-semibold" *ngIf="unidades.length==0">Nenhuma unidade cadastrada</div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Atualizar informações</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="unidadeModalForm" (ngSubmit)="atualizarUnidade()" class="mb-3">
+          <div class="mb-3">
+            <label for="apartamento_modal" class="form-label">Apartamento <span
+                class="text-danger fw-bold">*</span></label>
+            <select id="apartamento_modal" formControlName="apartamento_modal" class="form-select"
+              [class.is-invalid]="apartamento_modal.invalid && (apartamento_modal.dirty || apartamento_modal.touched)"
+              aria-label="apartamento_modal" aria-describedby="input-apartamento_modal" required>
+              <option class="fw-semibold" value="" *ngIf="apartamentos.length==0">Nenhum apartamento encontrado
+              </option>
+              <option *ngFor="let apartamento of apartamentos" [value]="apartamento.id">
+                {{ apartamento.identificador }}
+              </option>
+            </select>
+            <div *ngIf="apartamento_modal.invalid && (apartamento_modal.dirty || apartamento_modal.touched)"
+              class="form-text text-danger">
+              <div *ngIf="apartamento_modal.errors?.['required']">
+                Campo obrigatório.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="bloco_modal" class="form-label">Bloco <span class="text-danger fw-bold">*</span></label>
+            <select id="bloco_modal" formControlName="bloco_modal" class="form-select"
+              [class.is-invalid]="bloco_modal.invalid && (bloco_modal.dirty || bloco_modal.touched)"
+              aria-label="bloco_modal" aria-describedby="input-bloco_modal" required>
+              <option class="fw-semibold" value="" *ngIf="blocos.length==0">Nenhum bloco encontrado</option>
+              <option *ngFor="let bloco of blocos" [value]="bloco.id">{{ bloco.identificador }}
+              </option>
+            </select>
+            <div *ngIf="bloco_modal.invalid && (bloco_modal.dirty || bloco_modal.touched)"
+              class="form-text text-danger">
+              <div *ngIf="bloco_modal.errors?.['required']">
+                Campo obrigatório.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="responsavel_modal" class="form-label">Responsável <span
+                class="text-danger fw-bold">*</span></label>
+            <select id="responsavel_modal" formControlName="responsavel_modal" class="form-select"
+              [class.is-invalid]="responsavel_modal.invalid && (responsavel_modal.dirty || responsavel_modal.touched)"
+              aria-label="responsavel_modal" aria-describedby="input-bloco_modal" required>
+              <option class="fw-semibold" value="" *ngIf="responsaveis.length==0">Nenhum responsável encontrado
+              </option>
+              <option *ngFor="let responsavel of responsaveis" [value]="responsavel.id">
+                {{ responsavel.nome }}</option>
+            </select>
+            <div *ngIf="responsavel_modal.invalid && (responsavel_modal.dirty || responsavel_modal.touched)"
+              class="form-text text-danger">
+              <div *ngIf="responsavel_modal.errors?.['required']">
+                Campo obrigatório.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary px-4" role="button" data-bs-dismiss="modal">Atualizar</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

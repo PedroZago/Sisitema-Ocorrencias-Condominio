@@ -1,0 +1,72 @@
+<header class="p-3 mb-5 shadow bg-dark">
+  <div class="container-fluid">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li>
+          <a [routerLink]="['/ocorrencias']" class="nav-link px-2 text-white">Ocorrência</a>
+        </li>
+
+        <li *ngIf="authenticated === 1">
+          <a [routerLink]="['/dashboard']" class="nav-link px-2 text-white">Dashboard</a>
+        </li>
+
+        <li class="dropdown" *ngIf="authenticated === 1">
+          <a class="nav-link px-2 text-white dropdown-toggle" id="dropdownMenu" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Controles
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li>
+              <a [routerLink]="['/apartamentos']" class="dropdown-item">Apartamentos</a>
+            </li>
+
+            <li>
+              <a [routerLink]="['/blocos']" class="dropdown-item">Blocos</a>
+            </li>
+
+            <li>
+              <a [routerLink]="['/unidades']" class="dropdown-item">Unidades</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="dropdown text-end" *ngIf="authenticated === 1">
+        <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUsuario"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <img [src]="url_foto_perfil" width="32" height="32" class="rounded-circle me-2">
+          <strong>{{usuario_nome}}</strong>
+        </a>
+
+        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUsuario">
+          <li>
+            <a class="dropdown-item" [routerLink]="['/perfil']">Perfil</a>
+          </li>
+
+          <li>
+            <a class="dropdown-item" [routerLink]="['/atualizar-senha']">Atualizar senha</a>
+          </li>
+
+          <li>
+            <a class="dropdown-item" [routerLink]="['/configuracoes']">Configurações</a>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item" (click)="deslogarUsuario()">Sair</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="text-end" *ngIf="authenticated === 2">
+        <a class="btn btn-outline-primary me-2" [routerLink]="['/entrar']" role="button">Login</a>
+
+        <a class="btn btn-primary" [routerLink]="['/cadastro']" role="button">Cadastro</a>
+      </div>
+    </div>
+  </div>
+</header>
